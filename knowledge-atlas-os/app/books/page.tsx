@@ -202,7 +202,7 @@ export default function DashboardPage() {
               <h2>{selected.title}</h2>
               <p className="sub">{selected.author || "Unknown author"}</p>
               <div className="actions"><button className="btn delete" onClick={() => remove(selected.id)}>Delete</button></div>
-              <PolishedOutput content={selected.analysis || selected.insight || "No analysis saved."} />
+              <PolishedOutput content={selected.analysis || "No analysis saved."} />
             </>
           ) : <p className="sub">No saved books yet.</p>}
         </aside>

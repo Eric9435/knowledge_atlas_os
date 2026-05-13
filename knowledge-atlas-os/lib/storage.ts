@@ -6,6 +6,7 @@ export type KnowledgeBook = {
   downloads?: number;
   textUrl?: string;
   analysis?: string;
+  insight?: string;
   favorite?: boolean;
   important?: boolean;
   status?: "saved" | "reading" | "done";
