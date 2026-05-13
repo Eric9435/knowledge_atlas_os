@@ -3,8 +3,8 @@ import { NextResponse } from "next/server";
 function cleanText(text: string) {
   return text
     .replace(/\r/g, "")
-    .replace(/\*\*\* START OF.*?\*\*\*/is, "")
-    .replace(/\*\*\* END OF.*?\*\*\*/is, "")
+    .replace(/\*\*\* START OF.*?\*\*\*/g, "")
+    .replace(/\*\*\* END OF.*?\*\*\*/g, "")
     .replace(/\n{3,}/g, "\n\n")
     .trim();
 }
