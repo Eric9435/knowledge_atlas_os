@@ -91,7 +91,7 @@ export default function DailyPage(){
       ...selected,
       analysis,
       important:true,
-      status:"saved",
+      status:"saved" as const,
     };
 
     saveBook(record);
