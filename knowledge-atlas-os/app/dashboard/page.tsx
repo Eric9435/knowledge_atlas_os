@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { getBooks, KnowledgeBook, deleteBook } from "@/lib/storage";
+import { getCloudBooks, deleteCloudBook } from "@/lib/cloudStorage";
 import { getVisitLogs, formatDuration } from "@/lib/session";
 import { PolishedOutput } from "@/components/PolishedOutput";
 import { ThemeToggle } from "@/components/ThemeToggle";
@@ -20,7 +21,7 @@ export default function DashboardPage() {
     setLogs(getVisitLogs());
   }
 
-  useEffect(() => refresh(), []);
+  useEffect(() => { void refresh(); }, []);
 
   const favorite = books.filter((b) => b.favorite).length;
   const important = books.filter((b) => b.important).length;
@@ -34,8 +35,9 @@ export default function DashboardPage() {
     return Object.entries(map).sort((a, b) => b[1] - a[1]);
   }, [books]);
 
-  function remove(id: string | number) {
+  async function remove(id: string | number) {
     if (!confirm("Delete this record?")) return;
+    await deleteCloudBook(id);
     const next = deleteBook(id);
     setBooks(next);
     setSelected(next[0] || null);

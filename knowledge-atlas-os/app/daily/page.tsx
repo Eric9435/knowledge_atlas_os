@@ -5,6 +5,7 @@ import { startSession, updateSessionDuration, formatDuration } from "@/lib/sessi
 import Link from "next/link";
 import jsPDF from "jspdf";
 import { saveBook, getBooks } from "@/lib/storage";
+import { saveCloudBook } from "@/lib/cloudStorage";
 import { PolishedOutput } from "@/components/PolishedOutput";
 import { ThemeToggle } from "@/components/ThemeToggle";
 
@@ -83,10 +84,24 @@ export default function DailyPage(){
     setAnalysis(data.analysis); setAnalyzing(false);
   }
 
-  function saveCurrent(){
+  async function saveCurrent(){
     if(!selected) return;
-    saveBook({...selected,analysis,important:true,status:"saved"});
-    alert("Saved / Updated. No duplicate created.");
+
+    const record = {
+      ...selected,
+      analysis,
+      important:true,
+      status:"saved",
+    };
+
+    saveBook(record);
+
+    try {
+      await saveCloudBook(record);
+      alert("Saved locally + Supabase cloud.");
+    } catch (err:any) {
+      alert("Saved locally, but Supabase failed: " + (err?.message || String(err)));
+    }
   }
 
   function newGenerateSection(){
